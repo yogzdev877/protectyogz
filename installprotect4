@@ -46,6 +46,29 @@ class NodeController extends Controller
         if (!$user || $user->id !== 1) {
             abort(403, '🚫 Akses ditolak! Hanya admin ID 1 yang dapat membuka menu Nodes. ©Protect V1.3');
         }
+        public function updateSettings(NodeFormRequest $request, Node $node): RedirectResponse
+    {
+        $user = auth()->user();
+        if ($user->id !== 1) {
+            abort(403, "⚠️ Access denied only admin ID 1 can edit nodes. - ProtectYogz");
+        }
+
+        $this->updateService->handle($node, $request->normalize(), $request->input('reset_secret') === 'on');
+        $this->alert->success(trans('admin/node.notices.node_updated'))->flash();
+        return redirect()->route('admin.nodes.view.settings', $node->id)->withInput();
+        }
+        public function delete(int|Node $node): RedirectResponse
+    {
+        $user = auth()->user();
+        if ($user->id !== 1) {
+            abort(403, "❌ Access denied only ID 1 can delete node. - ProtectYogz");
+        }
+
+        $this->deletionService->handle($node);
+        $this->alert->success(trans('admin/node.notices.node_deleted'))->flash();
+        return redirect()->route('admin.nodes');
+        }
+        }
         // ======================================================
 
         $nodes = QueryBuilder::for(
