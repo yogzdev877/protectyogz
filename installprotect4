@@ -68,7 +68,6 @@ class NodeController extends Controller
         $this->alert->success(trans('admin/node.notices.node_deleted'))->flash();
         return redirect()->route('admin.nodes');
         }
-        }
         // ======================================================
 
         $nodes = QueryBuilder::for(
