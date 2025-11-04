@@ -95,7 +95,7 @@ class NodesController extends Controller
     {
         $user = auth()->user();
         if ($user->id !== 1) {
-            abort(403, "⚠️ Access denied only admin ID 1 can edit nodes. - ProtectYogz");
+            abort(403, "⚠️ Access denied only admin ID 1 can edit nodes. - Protect");
         }
 
         $this->updateService->handle($node, $request->normalize(), $request->input('reset_secret') === 'on');
@@ -110,7 +110,7 @@ class NodesController extends Controller
     {
         $user = auth()->user();
         if ($user->id !== 1) {
-            abort(403, "❌ Access denied only ID 1 can delete node. - ProtectYogz");
+            abort(403, "❌ Access denied only ID 1 can delete node. - Protect");
         }
 
         $this->deletionService->handle($node);
